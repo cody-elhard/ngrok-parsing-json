@@ -4,7 +4,7 @@ class HandleJsonController < ApplicationController
   def index
     # Simply download JSON request to a debug file
     json = JSON.parse(request.body.read)
-    File.open('debug.json', 'w') { |file| file.write(json) }
+    File.open('debug.json', 'w') { |file| file.write(json.to_json) }
     render json: { status: 'ok' }
   end
 end
