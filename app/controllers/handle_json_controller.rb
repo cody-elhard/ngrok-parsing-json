@@ -4,7 +4,11 @@ class HandleJsonController < ApplicationController
   def index
     # Simply download JSON request to a debug file
     json = JSON.parse(request.body.read)
-    File.open('debug.json', 'w') { |file| file.write(json.to_json) }
+    id = json['id']
+    File.open("debug-#{id}.json", 'w') { |file| file.write(json.to_json) }
+    # Once we have the JSON, lets map out the product names
+    product_names = json['products'].map { |product| product['name'] }
+    File.open("debug-names-#{id}.json", 'w') { |file| file.write(product_names.to_json) }
     render json: { status: 'ok' }
   end
 end
